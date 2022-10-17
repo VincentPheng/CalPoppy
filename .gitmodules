@@ -1,3 +1,0 @@
-[submodule "flask-server/KGQA"]
-	path = flask-server/KGQA
-	url = https://github.com/mathurma/KGQA
