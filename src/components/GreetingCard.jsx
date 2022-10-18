@@ -4,9 +4,9 @@ import logoSrc from "../images/spr_logo.png"
 
 export default function GreetingCard() {
   const titleText = "Welcome to Swanton Poppy Chat!";
-  const descriptionText = `Ask anything you want to know about the ranch!
-  Check out how to use Poppy by clicking the question mark above. 
-  Please note Poppy is a work in progress and your questions help poppy grow! `;
+  const descriptionText = `Welcome to the Alpha version of Poppy Chat! Ask Poppy about Swanton Pacific Ranch! Check out how to use Poppy and about FAQs by clicking the question mark above.
+   Please note Poppy is a child and is learning more vocabulary every day. Your questions help Poppy learn!`;
+  
   const logoAltText = `Swanton Poppy Logo`;
 
   const description = descriptionText.split("\n").map((text, i) => (

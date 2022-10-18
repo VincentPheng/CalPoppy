@@ -7,21 +7,29 @@ import funfacts from "./facts.js";
 // import axios from "axios";
 import "../style/chatbot.css";
 import { findAllByDisplayValue } from "@testing-library/react";
+import { Router, Navigate } from 'react-router-dom';
 
-export default function Chatbot(props) {
+let suggValue = ["None", "None"];
+
+/*If a user selects a suggested question this function is called, setting the question and answer values to be sent in the chat box*/
+export const suggested = (sugg, suggAns) => { 
+    suggValue = [sugg, suggAns]
+}
+
+export function Chatbot(props) {
+    console.log("Sugg", props)
     const SENDER_USER = "user";
     const SENDER_BOT = "bot";
-
     const AI_NO_ANS = "Sorry, I cannot answer that question at the moment! Please contact Jeanine Scaramozzino at swantonpoppycp@gmail.com to give feedback. Thank you for helping Poppy grow!";
     const FUN_FACT_STR = "Here is a fun fact about SPR: ";
     const FUN_FACT_COUNT = 5;
-
-    const [suggestionsOpen, setSuggestionsOpen] = useState(false);
+     
     const [query, setQuery] = useState("");
     const [conversation, setConversation] = useState([]);
     const [responseCount, setResponseCount] = useState(0); // AI mocking
     const [initialResponse, setInitialResponse] = useState(0);
     const [feedbackReceived, setFeedbackReceived] = useState(0);
+    const [suggestionsOpen, setSuggestionsOpen] = useState(false);
 
     /**
      * Toggles the suggestions
@@ -29,13 +37,39 @@ export default function Chatbot(props) {
     let onSuggestionClick = () => {
         setSuggestionsOpen((s) => !s);
     };
+
     /**
      * Every time the user sends a new question, get the answer from the API and
      * add it to the conversation.
      */
     useEffect(() => {
         console.log("Effect triggered")
+        /*If the user selected a suggested question on the Learn More Page the sendSuggMessageAndAns function is called*/
+        if (suggValue[0] !== "None"){
+            sendSuggMessageAndAns(suggValue[0], suggValue[1]);
+        }
 
+        function sendSuggMessageAndAns(sugg, suggAns){
+            /*Add the question to the conversation*/
+            let manualQuery = [{ text: sugg}] 
+            const conversation =  manualQuery.map(({ text }) => ({
+                text,
+                sender: SENDER_USER,
+                timestamp: Date.now(),
+            }));
+            /*Add the answer to the message*/
+            let manualAns = [{ text: suggAns}] 
+            const answerMessages =  manualAns.map(({ text }, i) => ({
+                text,
+                sender: SENDER_BOT,
+                timestamp: Date.now() + i,
+                responseType: i === 0 ? "answer" : "followUp"
+            }));
+            
+            setConversation([...conversation, ...answerMessages]); 
+            suggValue = ["None", "None"];
+        }
+    
         /* Runs on page refresh
         if (initialResponse === 0) {
 
@@ -75,7 +109,6 @@ export default function Chatbot(props) {
         // }
         /* --------------------------------------------------------*/
 
-
         async function AIResponse(question){
 
             console.log("Before Fetch", question)
@@ -93,7 +126,7 @@ export default function Chatbot(props) {
             // let resp = (data.sentences[0]) ? (data.sentences + responseCount) : [AI_NO_ANS, funfacts[fact]]
             if (data.sentences[0]) {
                 setResponseCount(responseCount + 1);
-                return [{ text: data.sentences + responseCount }]
+                return [{ text: data.sentences}]
             }
             else {
                 return [{ text: AI_NO_ANS}, { text: FUN_FACT_STR + funfacts[fact]}]
@@ -103,14 +136,13 @@ export default function Chatbot(props) {
 
         }
 
-        function sleep(ms) {
-             return new Promise(resolve => setTimeout(resolve, ms));
-        }
+        // function sleep(ms) {
+        //      return new Promise(resolve => setTimeout(resolve, ms));
+        // }
 
         async function postMessage() {
             try {
-                // const response = await axios.post("api/webhooks/rest/webhook", payload);
-                // const answerMessages = response.data.map(({ text }, i) => ({
+
                 console.log("-1")
 
                 const AIAns = await AIResponse(query);
@@ -122,13 +154,11 @@ export default function Chatbot(props) {
                     timestamp: Date.now() + i,
                     responseType: i === 0 ? "answer" : "followUp"
                 }));
+
                 console.log("1")
 
-                setQuery(""); //TRIGGER
-                console.log("2")
-
                 setConversation([...conversation, ...answerMessages]); //
-                console.log("3")
+                console.log("2")
 
             } catch (err) {
                 console.log("THIS IS BAD")
@@ -197,7 +227,9 @@ export default function Chatbot(props) {
                 onSuggestionClick={onSuggestionClick}
                 onFeedbackGiven={onFeedbackGiven}
             />
+            
             {!suggestionsOpen && <ChatComposer onSend={sendMessage} />}
         </main>
     );
 }
+

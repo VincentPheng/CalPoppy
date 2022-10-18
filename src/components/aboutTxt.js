@@ -6,9 +6,18 @@ const suggestions = [
   "What group of Indigenous Peoples lived in the Swanton area before Spanish colonization?",
   "What was the original name of the land grant that Swanton was part of?",
   "How many plants have been identified in the Swanton/Scott Creek Watershed?",
-  "What is a fun fact about the Rancho?",
+  "What is a fun fact about the Ranch?",
   "How do I plan a visit to Swanton?",
 ];
+
+const suggestionsAnswers = [
+  "Swanton Pacific Ranch is 3200 acres.",
+  "The locality and town of Swanton were referred to by a number of names but the name Swanton was solidified in the late 1800s, after Fred Swanton. He was a businessman and mayor of Santa Cruz. He damed a local creek to created a hyroelectric plant to provide Santa Cruz with electriciy.",
+  "Tribal distinctions are now recognized between the Amah Mutsun Tribal Band and the Ohlone/Costanoan Esselen Nation. When referring to the land base of Swanton it is more specifically the ancestral land of the Amah Mutsun.",
+  "The original name of the land grant was Agua Puerca y las Trancas, translated as hog water and the bars, and was originally known as Rancho el Jarro. HIstorians have said that Agua Puerca likely refers to the stagnant water in the stream which comes out at Davenport Landing, the original southerly boundary of the rancho; and Las Trancas refers to placing poles for a gate or barrier in a narrow canyon just south of Waddell Creek.",
+  "Approximately 15% or more of all of California's native and non-native plants live within the geomorphological boundaries of the watershed.",
+  "Due to an English translation error during a legal proceeding regarding ownership the land grant's boundaries were described in a way that the northeasterly boundary would have included Modesto, California.",
+ ]
 
 const aboutSPR = [`Swanton Pacific Ranch (SPR) is a 3200-acre satellite property of California Polytechnic State University 
 located in Santa Cruz County off Highway 1, ~60 miles south of San Francisco. The land is composed of a majestic redwood forest, 
@@ -48,4 +57,4 @@ const helpMessage = ["Poppy needs your help to ensure that she can stay up and r
 
 const disclaimer = `Reasonable effort has been made to accurately and fairly represent the content shared through the Poppy interface. If you have comments, concerns or clarification on the content please email ${ email.poppy }.`
 
-export { suggestions, aboutSPR, aboutCreators, aboutHayes, aboutKurfess, helpMessage, disclaimer };
+export { suggestions, suggestionsAnswers, aboutSPR, aboutCreators, aboutHayes, aboutKurfess, helpMessage, disclaimer };

@@ -45,7 +45,7 @@
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
 
     animation-name: animCardStyle;
-    animation-duration: 0.5s;
+    animation-duration: 0.75s;
 }
 
 .logoStyle {
@@ -60,7 +60,7 @@
     text-align: center;
     font-size: 30px;
     animation-name: animTitleStyle;
-    animation-duration: 0.5s;
+    animation-duration: 0.75s;
 }
 
 .descriptionStyle {

@@ -27,8 +27,3 @@
     border: none;
     align-self: center;
 }
-
-.divline {
-    border-top: 1px rounded var(--sealGray);
-    margin: 20px 20px;
-}

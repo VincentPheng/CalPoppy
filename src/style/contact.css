@@ -1,0 +1,22 @@
+.contactImg {
+    float: left;
+    margin: 1% 2.5% 0 0;
+    max-width: 300px;
+}
+
+.imgCaption {
+    font-size: small;
+    color: var(--sealGray);
+}
+
+.inlineImg {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.inlineImgBlock {
+    padding: 1rem 0;
+}

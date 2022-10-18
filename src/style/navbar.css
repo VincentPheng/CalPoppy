@@ -1,9 +1,14 @@
-
 .topnav {
     background-color: #203e2f;
     overflow: hidden;
-  }
-  
+}
+
+.topnavMobile {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
 
 .navbuttonLogo{
     padding: 2.5px 2px;
@@ -13,9 +18,7 @@
     text-align:center;
     border: 1px solid #203e2f;
     transition-duration: 0.4s;
-    vertical-align: top;
-
-    
+    vertical-align: top;    
 }
   /* Style the links inside the navigation bar */
 .navbutton{
@@ -29,10 +32,19 @@
     transition-duration: 0.4s;
 }
 
+.navbuttonDisplay {
+    align-self: flex-start;
+}
+
+.navbuttonLarge {
+    padding: 26px 30px;
+    font-size: 32px;
+}
+
 .navbutton:hover, .navbuttonLogo:hover{
     background-color: #296e2b; 
     border-color: #296e2b; 
     color: white;
-  }
+}
 
   
