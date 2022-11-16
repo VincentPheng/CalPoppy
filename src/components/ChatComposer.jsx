@@ -7,6 +7,9 @@ import "../style/chatComposer.css";
 import "../style/text.css";
 import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
+import { useEffect } from "react";
+
+const audioCtx = new AudioContext();
 
 export default function ChatComposer({ onSend }) {
 
@@ -14,6 +17,7 @@ export default function ChatComposer({ onSend }) {
     const [onscreenKey, setOnscreenKey] = useState(false);
     const [input, setInput] = useState("");
     const [layout, setLayout] = useState("default");
+    const [mic, setMic] = useState();
     const keyboard = useRef();
 
     const onChange = input => {
@@ -41,6 +45,18 @@ export default function ChatComposer({ onSend }) {
         }
     };
 
+    useEffect(() => {
+        if (navigator.mediaDevices) {
+            navigator.mediaDevices.getUserMedia({"audio": true}).then((stream) => {
+                setMic(audioCtx.createMediaStreamSource(stream));
+            }).catch((err) => {
+                console.error('Sus');
+            });
+        } else {
+            console.error('Sus');
+        }          
+    }, []);
+
     // Takes the message from the content editable field and sends it out
     function sendMessage(e) {
         e.preventDefault();
@@ -67,6 +83,9 @@ export default function ChatComposer({ onSend }) {
                     />
                     <button type="button" className="sendButtonStyle" onClick={() => {console.log("input:", input); setOnscreenKey(!onscreenKey)}}>
                         <i class="bi bi-keyboard"></i>
+                    </button>
+                    <button type="button" className="sendButtonStyle" onClick={() => {setOnscreenKey(!onscreenKey)}}>
+                        i
                     </button>
                     <button type="submit" className="sendButtonStyle">
                         <Send size={20} />
