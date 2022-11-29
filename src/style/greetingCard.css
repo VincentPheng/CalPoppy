@@ -39,7 +39,7 @@
     justify-content: center;
     align-self: center;
     margin: 0 10%;
-    padding: 5%;
+    padding: 15px;
     border-radius: 15px;
     background: white;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
@@ -49,10 +49,10 @@
 }
 
 .logoStyle {
-    padding: 25px;
+    padding: 20px;
     display: block;
     margin: 0 auto;
-    width: 50%;
+    width: 200px;
     height: auto;
 }
 
@@ -65,5 +65,6 @@
 
 .descriptionStyle {
     font-size: 16px;
+    line-height: 15px;
     text-align: center;
 }

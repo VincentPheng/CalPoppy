@@ -1,12 +1,76 @@
 /* chat tab: bottom bar */
 
 /** @jsxImportSource @emotion/react */
-import { useRef, useState } from "react";
+import {Component, useRef, useState} from "react";
 import { Send } from "react-feather";
 import "../style/chatComposer.css";
 import "../style/text.css";
 import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
+import RecorderJS from 'recorder-js';
+import { getAudioStream, exportBuffer } from '../lib/audio'
+
+class Mic extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            stream: null,
+            recording: false,
+            recorder: null
+        };
+        this.startRecord = this.startRecord.bind(this);
+        this.stopRecord = this.stopRecord.bind(this);
+    }
+
+    async componentDidMount() {
+        let stream;
+        try {
+            stream = await getAudioStream();
+        } catch (error) {
+            // Users browser doesn't support audio. Add handler.
+            console.log(error);
+        }
+        this.setState({ stream });
+    }
+
+    startRecord() {
+        const { stream } = this.state;
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const recorder = new RecorderJS(audioContext);
+        recorder.init(stream);
+        this.setState(
+          {
+              recorder,
+              recording: true
+          }, () => recorder.start());
+    }
+
+    async stopRecord() {
+        const { recorder } = this.state;
+        recorder.stop().then(({blob, buffer}) => {
+            RecorderJS.download(blob, 'audio'); // downloads a .wav file
+            console.log("downloaded audio.wav");
+        });
+        this.setState({
+            recording: false
+        });
+    }
+
+    render() {
+        const { recording, stream } = this.state;
+        // Don't show record button if their browser doesn't support it.
+        if (!stream) {
+            return null;
+        }
+        return (
+          <button type="button" className="sendButtonStyle" onClick={() => {
+              recording ? this.stopRecord() : this.startRecord();
+          }}>
+              <i className={recording ? "bi bi-mic-mute" : "bi bi-mic"}></i>
+          </button>
+        );
+    }
+}
 
 export default function ChatComposer({ onSend }) {
 
@@ -65,9 +129,10 @@ export default function ChatComposer({ onSend }) {
                         value={input}
                         onChange={onChangeInput}
                     />
-                    <button type="button" className="sendButtonStyle" onClick={() => {console.log("input:", input); setOnscreenKey(!onscreenKey)}}>
+                    <button type="button" className="sendButtonStyle" onClick={() => setOnscreenKey(!onscreenKey)}>
                         <i class="bi bi-keyboard"></i>
                     </button>
+                    <Mic />
                     <button type="submit" className="sendButtonStyle">
                         <Send size={20} />
                         <p className="buttonTextStyle">Send</p>

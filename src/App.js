@@ -3,8 +3,6 @@ import "./axios-config.js";
 import { ThemeProvider } from "@emotion/react";
 import theme from "./theme.js";
 import About from "./components/About";
-import Home from "./components/Home";
-import Maps from "./components/Maps";
 import Contact from "./components/Contact";
 import Donate from "./components/Donate";
 import PageNotFound from "./components/PageNotFound";
@@ -92,22 +90,6 @@ export default function App() {
                             )}
                             {((breakpoint.size !== "small") || displayNavMobile) && (
                                 <div className={` ${ (breakpoint.size === "small") ? "topnavMobile" : "" } `}>
-                                    <Link to="/chatbot">
-                                        <button
-                                            class={` navbutton ${ breakpoint.size === "large" ? "navbuttonLarge" : "" } `}
-                                            type="button"
-                                        >
-                                            Chat
-                                        </button>
-                                    </Link>
-                                    <Link to="/maps">
-                                        <button
-                                            class={` navbutton ${ breakpoint.size === "large" ? "navbuttonLarge" : "" } `}
-                                            type="button"
-                                        >
-                                            Maps
-                                        </button>
-                                    </Link>
                                     <Link to="/about">
                                         <button
                                             class={` navbutton ${ breakpoint.size === "large" ? "navbuttonLarge" : "" } `}
@@ -125,7 +107,7 @@ export default function App() {
                                         </button>
                                     </Link>
                                     {/* later change link to /Donate */}
-                                    <Link to="/Donate">
+                                    <Link to="/donate">
                                         <button
                                             class={` navbutton ${ breakpoint.size === "large" ? "navbuttonLarge" : "" } `}
                                             type="button"
@@ -143,10 +125,8 @@ export default function App() {
             {/* A <Routes> looks through its children <Route>s and
                 renders the first one that matches the current URL. */}
             <Routes>
-                <Route path="/" element={<Home/>}/>
-                <Route path="/chatbot" element={<Chatbot/>}/>
+                <Route path="/" element={<Chatbot/>}/>
                 <Route path="/about" element={<About/>}/>
-                <Route path="/maps" element={<Maps/>}/>
                 <Route path="/contact" element={<Contact/>}/>
                 <Route path="/donate" element={<Donate/>}/>
                 <Route path="/404" element={<PageNotFound/>}/>

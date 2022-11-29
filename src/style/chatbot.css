@@ -4,7 +4,7 @@
     grid-template-columns: 1fr;
     grid-template-areas: "header" "chat-window" "composer";
     width: 100%;
-    max-width: 700px;
+    max-width: 100%;
     margin: auto;
     height: 92.5%;
 }
