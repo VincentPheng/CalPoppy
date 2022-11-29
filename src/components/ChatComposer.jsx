@@ -8,8 +8,9 @@ import "../style/text.css";
 import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
 import { useEffect } from "react";
+import MicRecorder from 'mic-recorder-to-mp3';
 
-const audioCtx = new AudioContext();
+const Mp3Recorder = new MicRecorder({ bitRate: 128 });
 
 export default function ChatComposer({ onSend }) {
 
@@ -17,7 +18,8 @@ export default function ChatComposer({ onSend }) {
     const [onscreenKey, setOnscreenKey] = useState(false);
     const [input, setInput] = useState("");
     const [layout, setLayout] = useState("default");
-    const [mic, setMic] = useState();
+    const [isRecording, setIsRecording] = useState(false);
+    const [isBlocked, setIsBlocked] = useState(false);
     const keyboard = useRef();
 
     const onChange = input => {
@@ -45,17 +47,44 @@ export default function ChatComposer({ onSend }) {
         }
     };
 
-    useEffect(() => {
+    useEffect(async () => {
         if (navigator.mediaDevices) {
             navigator.mediaDevices.getUserMedia({"audio": true}).then((stream) => {
-                setMic(audioCtx.createMediaStreamSource(stream));
+                setIsBlocked(false);
             }).catch((err) => {
-                console.error('Sus');
+                setIsBlocked(true);
+                console.error('Cannot connect to microphone, check to see if microphone is attached');
             });
         } else {
-            console.error('Sus');
-        }          
+            setIsBlocked(true);
+            console.error('Cannot connect to microphone, update your browser');
+        }
     }, []);
+
+    const start = () => {
+        if (isBlocked) {
+          console.log('Permission Denied');
+        } else {
+          Mp3Recorder
+            .start()
+            .then(() => {
+                setIsRecording(true);
+            }).catch((e) => console.error(e));
+        }
+    };
+
+    const stop = () => {
+        Mp3Recorder
+        .stop()
+        .getMp3()
+        .then(([buffer, blob]) => {
+            const blobURL = URL.createObjectURL(blob);
+            console.log(blobURL)
+            const tmp = new Audio(blobURL);
+            tmp.play() 
+            setIsRecording(false);
+          }).catch((e) => console.log(e));
+    };
 
     // Takes the message from the content editable field and sends it out
     function sendMessage(e) {
@@ -84,9 +113,14 @@ export default function ChatComposer({ onSend }) {
                     <button type="button" className="sendButtonStyle" onClick={() => {console.log("input:", input); setOnscreenKey(!onscreenKey)}}>
                         <i class="bi bi-keyboard"></i>
                     </button>
-                    <button type="button" className="sendButtonStyle" onClick={() => {setOnscreenKey(!onscreenKey)}}>
-                        i
-                    </button>
+                    { isRecording ? 
+                        <button type="button" className="sendButtonStyle" onClick={() => {stop()}}>
+                            stop
+                        </button> :
+                        <button type="button" className="sendButtonStyle" onClick={() => {start()}}>
+                            mic
+                        </button>
+                    }
                     <button type="submit" className="sendButtonStyle">
                         <Send size={20} />
                         <p className="buttonTextStyle">Send</p>
