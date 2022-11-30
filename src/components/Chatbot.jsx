@@ -227,7 +227,6 @@ export function Chatbot(props) {
                 onSuggestionClick={onSuggestionClick}
                 onFeedbackGiven={onFeedbackGiven}
             />
-            
             {!suggestionsOpen && <ChatComposer onSend={sendMessage} />}
         </main>
     );

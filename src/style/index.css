@@ -14,9 +14,19 @@ body {
 
 html,
 body,
-#root {
+#root,
+:root {
   margin: 0;
+  padding: 0;
   height: 100%;
+  overflow: scroll;
+}
+
+.content {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
 }
 
 h1,

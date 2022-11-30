@@ -3,23 +3,21 @@
 @keyframes animCardStyle {
     from {
         opacity: 0;
-        width: 80%;
-        transform: translate3d(0px, 50px, 0px);
+        transform: scale(50%);
     }
     to {
         opacity: 1;
-        width: 80%;
-        transform: translate3d(0, 0, 0);
+        transform: scale(100%);
     }
 }
 
 @keyframes animTitleStyle {
     from {
-        opacity: 0;
+        opacity: 50%;
         font-size: 30px;
     }
     to {
-        opacity: 1;
+        opacity: 100%;
         font-size: 30px;
     }
 }
@@ -43,7 +41,6 @@
     border-radius: 15px;
     background: white;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-
     animation-name: animCardStyle;
     animation-duration: 0.75s;
 }

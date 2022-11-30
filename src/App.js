@@ -8,9 +8,8 @@ import Donate from "./components/Donate";
 import PageNotFound from "./components/PageNotFound";
 import logo from "./images/spr_sp_logo.png";
 import { useState, useEffect } from "react";
-
 import './style/custom.scss';
-import {} from "./style/navbar.css"
+import "./style/navbar.css";
 
 import {
   BrowserRouter as Router,
@@ -29,14 +28,6 @@ export default function App() {
         screenWidth: window.innerWidth,
         screenHeight: window.innerHeight
     });
-    const [ displayNavMobile, setDisplayNavMobile ] = useState(false);
-    const [ textNavMobile, setTextNavMobile ] = useState("Menu");
-
-    const onClickNavMobile = () => {
-        setDisplayNavMobile(!displayNavMobile);
-        setTextNavMobile((textNavMobile === "Menu") ? "Close" : "Menu");
-        console.log("Mobile display?", displayNavMobile);
-    }
 
     useEffect(() => {
         const checkWidth = () => {
@@ -63,74 +54,57 @@ export default function App() {
     return (
         <ThemeProvider theme={theme}>  
             <Router>
-                <div class="topnav sticky-top">
-                    <nav id="nav">
+                <div className={"content"}>
+                    <nav className={"topnav sticky-top" + (breakpoint.size === "small" ? " mobile" : "")} id="nav">
                         <Link to="/">
                             <button
-                                class={`
-                                    navbutton
-                                    ${ breakpoint.size === "large" ? "navbuttonLarge" : "" } 
-                                `}
+                              className={"navbutton"}
                                 type="button"
                                 style={{padding: 1.5}}
                             >
                                 {/* Home */}
-                                <img src={logo} className="home_logo" alt="poppy logo"/>
+                                <div className={"homeLogoContainer"}>
+                                    <img src={logo} className="homeLogo" alt="Poppy logo"/>
+                                </div>
                             </button>
                         </Link>
-                        <div className={` ${ (breakpoint.size === "small") ? "topnavMobile" : "" } `}>
-                            {breakpoint.size === "small" && (
-                                <button
-                                    class="navbutton navbuttonDisplay"
-                                    type="button"
-                                    onClick={onClickNavMobile}
-                                >
-                                    {textNavMobile}
-                                </button>
-                            )}
-                            {((breakpoint.size !== "small") || displayNavMobile) && (
-                                <div className={` ${ (breakpoint.size === "small") ? "topnavMobile" : "" } `}>
-                                    <Link to="/about">
-                                        <button
-                                            class={` navbutton ${ breakpoint.size === "large" ? "navbuttonLarge" : "" } `}
-                                            type="button"
-                                        >
-                                            Learn More
-                                        </button>
-                                    </Link>
-                                    <Link to="/contact">
-                                        <button
-                                            class={` navbutton ${ breakpoint.size === "large" ? "navbuttonLarge" : "" } `}
-                                            type="button"
-                                        >
-                                            Contact
-                                        </button>
-                                    </Link>
-                                    {/* later change link to /Donate */}
-                                    <Link to="/donate">
-                                        <button
-                                            class={` navbutton ${ breakpoint.size === "large" ? "navbuttonLarge" : "" } `}
-                                            type="button"
-                                        >
-                                            {/* donation and support tab */}
-                                            Help Poppy Grow
-                                        </button>
-                                    </Link>
-                                </div>
-                            )}
-                        </div>
+                        <Link to="/about">
+                            <button
+                                className={"navbutton"}
+                                type="button"
+                            >
+                                Learn More
+                            </button>
+                        </Link>
+                        <Link to="/contact">
+                            <button
+                                className={"navbutton"}
+                                type="button"
+                            >
+                                Contact
+                            </button>
+                        </Link>
+                        {/* later change link to /Donate */}
+                        <Link to="/donate">
+                            <button
+                                className={"navbutton"}
+                                type="button"
+                            >
+                                {/* donation and support tab */}
+                                Help Poppy Grow
+                            </button>
+                        </Link>
                     </nav>
-                </div>
-
-            {/* A <Routes> looks through its children <Route>s and
-                renders the first one that matches the current URL. */}
-            <Routes>
-                <Route path="/" element={<Chatbot/>}/>
-                <Route path="/about" element={<About/>}/>
-                <Route path="/contact" element={<Contact/>}/>
-                <Route path="/donate" element={<Donate/>}/>
-                <Route path="/404" element={<PageNotFound/>}/>
-            </Routes>
+                {/* A <Routes> looks through its children <Route>s and
+                    renders the first one that matches the current URL. */}
+                <Routes>
+                    <Route path="/" element={<Chatbot/>}/>
+                    <Route path="/about" element={<About/>}/>
+                    <Route path="/contact" element={<Contact/>}/>
+                    <Route path="/donate" element={<Donate/>}/>
+                    <Route path="/404" element={<PageNotFound/>}/>
+                </Routes>
+            </div>
         </Router>
     </ThemeProvider>
   );

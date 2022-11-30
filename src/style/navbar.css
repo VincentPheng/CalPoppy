@@ -1,6 +1,23 @@
 .topnav {
+    flex: 0 1 60px;
+    width: 100%;
+    min-height: 60px;
     background-color: #203e2f;
     overflow: hidden;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 30px;
+    padding: 5px 5px 5px 10px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    box-sizing: content-box;
+}
+
+.mobile {
+    flex-flow: column wrap !important;
+    gap: 0px;
 }
 
 .topnavMobile {
@@ -10,19 +27,17 @@
     align-items: flex-start;
 }
 
-.navbuttonLogo{
-    padding: 2.5px 2px;
-    background-color: #203e2f;
-    color: white;
-    width:max-content;
-    text-align:center;
-    border: 1px solid #203e2f;
-    transition-duration: 0.4s;
-    vertical-align: top;    
+.navbuttons {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
 }
+
   /* Style the links inside the navigation bar */
-.navbutton{
-    padding: 13.5px 15px;
+.navbutton {
+    padding: 10px;
     background-color: #203e2f;
     color: white;
     width:max-content;
@@ -30,6 +45,31 @@
     text-align:center;
     border: 0px solid #203e2f;
     transition-duration: 0.4s;
+    font-size: 18px;
+    font-weight: normal;
+}
+
+.homeLogoContainer {
+    margin: 0;
+    padding: 0;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.homeLogo {
+    margin: 0;
+    padding: 0;
+    width: 45px;
+    height: auto;
+    transition-duration: 0.4s;
+}
+
+.homeLogo:hover {
+    width: 50px;
 }
 
 .navbuttonDisplay {
@@ -42,9 +82,7 @@
 }
 
 .navbutton:hover, .navbuttonLogo:hover{
-    background-color: #296e2b; 
-    border-color: #296e2b; 
-    color: white;
+    font-weight: bold;
 }
 
   

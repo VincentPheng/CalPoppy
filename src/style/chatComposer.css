@@ -5,7 +5,6 @@
 
 .menuBarStyle {
     height: auto;
-    grid-area: "composer";
     padding: 15px;
     background-color: white;
     box-shadow: var(--chatBarDist) var(--chatBarDist) var(--chatBarBlur) var(--sealGrayShadow);

@@ -130,7 +130,7 @@ export default function ChatComposer({ onSend }) {
                         onChange={onChangeInput}
                     />
                     <button type="button" className="sendButtonStyle" onClick={() => setOnscreenKey(!onscreenKey)}>
-                        <i class="bi bi-keyboard"></i>
+                        <i className="bi bi-keyboard"></i>
                     </button>
                     <Mic />
                     <button type="submit" className="sendButtonStyle">
