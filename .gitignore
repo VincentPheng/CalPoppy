@@ -1,5 +1,5 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
+vosk-model-en-us-0.22
 # dependencies
 /node_modules
 /.pnp
