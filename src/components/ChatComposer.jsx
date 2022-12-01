@@ -9,6 +9,7 @@ import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
 import RecorderJS from 'recorder-js';
 import { getAudioStream, exportBuffer } from '../lib/audio'
+import axios from "axios";
 
 class Mic extends Component {
     constructor(props) {
@@ -48,8 +49,20 @@ class Mic extends Component {
     async stopRecord() {
         const { recorder } = this.state;
         recorder.stop().then(({blob, buffer}) => {
-            RecorderJS.download(blob, 'audio'); // downloads a .wav file
-            console.log("downloaded audio.wav");
+            console.log(blob);
+            let f = new File([blob], 'test.wav', {lastModified: new Date().getTime(), type: blob.type})
+            const formData = new FormData()
+            formData.append("data", f)
+            axios.post('http://127.0.0.1:5000/transcribe', 
+                formData, {
+                headers: {
+                    "Access-Control-Allow-Origin": "*"
+                }}).then((res) => {
+                    console.log(res.data)
+                    this.props.onChangeMicInput(res.data)
+                })
+            // RecorderJS.download(blob, 'audio'); // downloads a .wav file
+            // console.log("downloaded audio.wav");
         });
         this.setState({
             recording: false
@@ -66,7 +79,7 @@ class Mic extends Component {
           <button type="button" className="sendButtonStyle" onClick={() => {
               recording ? this.stopRecord() : this.startRecord();
           }}>
-              <i className={recording ? "bi bi-mic-mute" : "bi bi-mic"}></i>
+              <i className={recording ? "bi bi-mic" : "bi bi-mic-mute"}></i>
           </button>
         );
     }
@@ -105,6 +118,15 @@ export default function ChatComposer({ onSend }) {
         }
     };
 
+    const onChangeMicInput = (value) => {
+        console.log(value)
+        setInput(input + value);
+        console.log("set input to", input)
+        if (onscreenKey) {
+            keyboard.current.setInput(input);
+        }
+    }
+
     // Takes the message from the content editable field and sends it out
     function sendMessage(e) {
         e.preventDefault();
@@ -132,7 +154,7 @@ export default function ChatComposer({ onSend }) {
                     <button type="button" className="sendButtonStyle" onClick={() => setOnscreenKey(!onscreenKey)}>
                         <i className="bi bi-keyboard"></i>
                     </button>
-                    <Mic />
+                    <Mic onChangeMicInput={onChangeMicInput} />
                     <button type="submit" className="sendButtonStyle">
                         <Send size={20} />
                         <p className="buttonTextStyle">Send</p>
